@@ -8,6 +8,3 @@ def get_parser():
     parser.add_argument('-c','--separate_graph',help='Take year and month and generate report on 2 lines')
     parser.add_argument('-s','--graph', help='Take year and month and generate report on 1 line')
     return parser.parse_args()
-
-
-

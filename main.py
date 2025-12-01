@@ -13,6 +13,3 @@ if __name__ == '__main__':
         print_graph_separate_lines(args.path,args.separate_graph)
     if args.graph:
         print_graph_single_line(args.path,args.graph)
-
-
-

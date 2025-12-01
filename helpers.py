@@ -78,20 +78,3 @@ def draw_horizontal_bar_chart_single_line(month_data):
     for day in month_data:
         date = extract_date_parts(day[DATE])
         print(date['day'],BLUE_COLOR, '+' * (int(day[MIN_TEMPERATURE] or 0)) + RED_COLOR, '+' * (int(day[MAX_TEMPERATURE] or 0)) + BLACK_COLOR,(day[MIN_TEMPERATURE] or '0')+ 'C' + " - " +(day[MAX_TEMPERATURE] or '0') + 'C')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

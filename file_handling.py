@@ -12,4 +12,3 @@ def read_file(path,file_name):
     else:
         print(f'File does not exist {file_path}')
     return csv_file_data
-
