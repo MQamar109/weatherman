@@ -16,9 +16,11 @@ MONTH_NUMBER = {
 #Entites
 MAX_TEMPERATURE = "Max TemperatureC"
 MIN_TEMPERATURE = "Min TemperatureC"
-MEAN_HUMIDITY = " Mean Humidity"
+MEAN_HUMIDITY = "Mean Humidity"
 MAX_HUMIDITY = "Max Humidity"
 DATE='PKT'
+
+DATE_FORMAT='%Y-%m-%d'
 
 #color constants
 RED_COLOR='\033[31m'
