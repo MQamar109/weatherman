@@ -17,10 +17,9 @@ class WeatherItem:
 # Class to store the result of the averages
 class MonthlyAveragesResult:
     def __init__(self, avg_max_temp, avg_min_temp, avg_mean_humidity):
-        self.average_max_temperature = round(avg_max_temp)
-
-        self.average_min_temperature = round(avg_min_temp)
-        self.average_mean_humidity = round(avg_mean_humidity)
+        self.average_max_temperature = avg_max_temp
+        self.average_min_temperature = avg_min_temp
+        self.average_mean_humidity = avg_mean_humidity
 
     def __str__(self):
         return (f'Highest Average: {self.average_max_temperature}C \n'

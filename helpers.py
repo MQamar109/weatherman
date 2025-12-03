@@ -68,4 +68,4 @@ def find_average_entity_value(month_data, entity):
             total_value += day[entity]
 
     average_value = total_value / len(month_data) if len(month_data) > 0 else 0
-    return average_value
+    return round(average_value)
