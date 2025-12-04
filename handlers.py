@@ -1,100 +1,106 @@
 from file_handling import read_file
-from constants import RED_COLOR, BLUE_COLOR, BLACK_COLOR
-from helpers import find_entity_lowest_value, find_entity_highest_value, get_file_name, find_average_entity_value, \
-    extract_year_month, extract_date_parts
+from helpers import (
+    extract_date_parts,
+    extract_month_and_year,
+    find_average_value,
+    find_highest_value,
+    find_lowest_value,
+    draw_separate_bar_graph,
+    draw_combine_bar_graph,
+    get_file_name,
+    fetch_file_data,
+    fetch_month_file_data,
+    fetch_year_files_data,
+    print_graph_header
+)
 from weather_containers import MonthlyAveragesResult, YearlyCalculation
+
+
+#Calculate month data (averages of max, min temperature and mean humidity
+def calculate_month_averages(path, date_string):
+    month_data = fetch_month_file_data(path, date_string)
+
+    if month_data:
+        avg_highest_temperature = find_average_value(month_data, 'max_temperature')
+        avg_lowest_temperature = find_average_value(month_data, 'min_temperature')
+        avg_mean_humidity = find_average_value(month_data, 'mean_humidity')
+        averages = MonthlyAveragesResult(avg_max_temp=avg_highest_temperature,
+                                         avg_min_temp=avg_lowest_temperature,
+                                         avg_mean_humidity=avg_mean_humidity)
+        return averages
+
+
+def print_month_average_results(path, date_string):
+    result = calculate_month_averages(path, date_string)
+    if result:
+        print(result)
+    else:
+        print("No data of this month found.")
+
+
+def print_combine_graph(path, date_string):
+    month_data = fetch_month_file_data(path, date_string)
+    if month_data:
+        print_graph_header(date_string)
+        draw_combine_bar_graph(month_data)
+
+
+def print_separate_graph(path, date_string):
+    month_data = fetch_month_file_data(path, date_string)
+    if month_data:
+        print_graph_header(date_string)
+        draw_separate_bar_graph(month_data)
+
+
+def find_year_extreme(year_data, key, find_max=True):
+    extreme = find_highest_value(year_data[0], key) if find_max else find_lowest_value(year_data[0], key)
+
+    for month in year_data[1:]:
+        if find_max:
+            current_high = find_highest_value(month, key)
+            if find_max and current_high['value'] > extreme['value']:
+                extreme = current_high
+        else:
+            current_low = find_lowest_value(month, key)
+            if current_low['value'] < extreme['value']:
+                extreme = current_low
+
+    return extreme
 
 
 # Find the highest and lowest temperature and most humidity
 def find_year_highest_temp_humidity_and_lowest_temp(year_data):
-    first_month = year_data[0]
-    highest_temp = find_entity_highest_value(first_month, 'max_temperature')
-    lowest_temp = find_entity_lowest_value(first_month, 'min_temperature')
-    highest_humidity = find_entity_highest_value(first_month, 'max_humidity')
+    highest_temp = find_year_extreme(year_data, 'max_temperature')
+    lowest_temp = find_year_extreme(year_data, 'min_temperature', find_max=False)
+    highest_humidity = find_year_extreme(year_data, 'max_humidity')
 
-    for month in year_data[1:]:
-        high_temperature = find_entity_highest_value(month, 'max_temperature')
-        if high_temperature['value'] > highest_temp['value']:
-            highest_temp = high_temperature
-
-        low_temperature = find_entity_lowest_value(month, 'min_temperature')
-        if low_temperature['value'] < lowest_temp['value']:
-            lowest_temp = low_temperature
-
-        high_humidity = find_entity_highest_value(month, 'max_humidity')
-        if high_humidity['value'] > highest_humidity['value']:
-            highest_humidity = high_humidity
-
-    return {'highest_temp': highest_temp, 'lowest_temp': lowest_temp, 'highest_humidity': highest_humidity}
+    return {'highest_temp': highest_temp,
+            'lowest_temp': lowest_temp,
+            'highest_humidity': highest_humidity}
 
 
-def calculate_month_averages(path, date_string):
-    month, year = extract_year_month(date_string)
-    file_name = get_file_name(year, month)
-    file_data = read_file(path, file_name)
-
-    if file_data:
-        avg_highest_temperature = find_average_entity_value(file_data, 'max_temperature')
-        avg_lowest_temperature = find_average_entity_value(file_data, 'min_temperature')
-        avg_mean_humidity = find_average_entity_value(file_data, 'mean_humidity')
-        averages = MonthlyAveragesResult(avg_max_temp=avg_highest_temperature, avg_min_temp=avg_lowest_temperature,
-                                         avg_mean_humidity=avg_mean_humidity)
-        print(averages)
-
-
-def get_year_calculations_and_date(path, year):
-    year_data = []
-
-    for month in range(12):
-        file_name = get_file_name(year, month + 1)
-        file_data = read_file(path, file_name)
-        if file_data:
-            year_data.append(file_data)
+def calculate_year_values(path, year):
+    year_data = fetch_year_files_data(path, year)
 
     if year_data:
         data = find_year_highest_temp_humidity_and_lowest_temp(year_data)
-        max_temp, min_temp, max_humidity = data['highest_temp'], data['lowest_temp'], data['highest_humidity']
-        calculated_avg = YearlyCalculation(highest_temp=max_temp['value'],
-                                           highest_temp_date={'day': max_temp['day'], 'month': max_temp['month']},
+        max_temp, min_temp, max_humidity = (data['highest_temp'],
+                                        data['lowest_temp'],
+                                        data['highest_humidity'])
 
-                                           lowest_temp=min_temp['value'],
-                                           lowest_temp_date={'day': min_temp['day'], 'month': min_temp['month']},
+        return YearlyCalculation(highest_temp=max_temp['value'],
+                                 highest_temp_date={'day': max_temp['day'], 'month': max_temp['month']},
 
-                                           highest_humidity=max_humidity['value'],
-                                           highest_humidity_date={'day': max_humidity['day'],'month': max_humidity['month']})
-        print(calculated_avg)
+                                 lowest_temp=min_temp['value'],
+                                 lowest_temp_date={'day': min_temp['day'], 'month': min_temp['month']},
+
+                                 highest_humidity=max_humidity['value'],
+                                 highest_humidity_date={'day': max_humidity['day'],'month': max_humidity['month']})
+
+
+def print_year_result(path, year):
+    result = calculate_year_values(path, year)
+    if result:
+        print(result)
     else:
-        print('Not any File of this year found!')
-
-
-# Draw horizontal bar graph on separate lines
-def draw_horizontal_bar_graph(path, date_string):
-    month, year = extract_year_month(date_string)
-    file_name = get_file_name(year, month)
-    file_data = read_file(path, file_name)
-
-    if file_data:
-        date = extract_date_parts(file_data[0].date)
-        print(date['month'], date['year'])
-
-        for day in file_data:
-            date = extract_date_parts(day.date)
-            print(date['day'], RED_COLOR, '+' * day.max_temperature + BLACK_COLOR, str(day.max_temperature) + 'C')
-            print(date['day'], BLUE_COLOR, '+' * day.min_temperature + BLACK_COLOR, str(day.min_temperature) + 'C')
-
-
-# Draw combine horizontal bar graph on same line
-def draw_combine_horizontal_bar_graph(path, date_string):
-    month, year = extract_year_month(date_string)
-    file_name = get_file_name(year, month)
-    file_data = read_file(path, file_name)
-
-    if file_data:
-        date = extract_date_parts(file_data[0].date)
-        print(date['month'], date['year'])
-
-        for day in file_data:
-            date = extract_date_parts(day.date)
-            print(date['day'], BLUE_COLOR,
-                  '+' * day.min_temperature + RED_COLOR + '+' * day.min_temperature + BLACK_COLOR,
-                  str(day.min_temperature) + 'C' + " - " + str(day.max_temperature) + 'C')
+        print("No data of this year found.")

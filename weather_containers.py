@@ -41,9 +41,9 @@ class YearlyCalculation:
         self.highest_humidity_date = highest_humidity_date
 
     def __str__(self):
-        return (f"Highest: {self.highest_temp}C on "
-                f"{self.highest_temp_date['month']} {self.highest_temp_date['day']}\n"
-                f"Lowest: {self.lowest_temp}C on "
-                f"{self.lowest_temp_date['month']} {self.lowest_temp_date['day']}\n"
-                f"Humidity: {self.highest_humidity}% on "
-                f"{self.highest_humidity_date['month']} {self.highest_humidity_date['day']}")
+        return (f'Highest: {self.highest_temp}C on '
+                f'{self.highest_temp_date["month"]} {self.highest_temp_date["day"]}\n'
+                f'Lowest: {self.lowest_temp}C on '
+                f'{self.lowest_temp_date["month"]} {self.lowest_temp_date["day"]}\n'
+                f'Humidity: {self.highest_humidity}% on '
+                f'{self.highest_humidity_date["month"]} {self.highest_humidity_date["day"]}')
