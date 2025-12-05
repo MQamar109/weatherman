@@ -1,17 +1,29 @@
-# Class to store the weather item
+from calendar import month_abbr
+
+from helpers import extract_date_parts
+
 class WeatherItem:
     def __init__(self, max_temp, min_temp, max_humidity, mean_humidity, date):
         self.max_temperature = max_temp
         self.min_temperature = min_temp
         self.max_humidity = max_humidity
         self.mean_humidity = mean_humidity
-        self.date = date
+        self.date = extract_date_parts(date)
+
+    def get_day(self):
+        return self.date['day']
+
+    def get_month(self):
+        return self.date['month']
 
     def __getitem__(self, key):
         return getattr(self, key)
 
     def __str__(self):
-        return f'{self.max_temperature}, {self.mean_humidity}, {self.max_humidity}, {self.min_temperature}'
+        return (f'{self.max_temperature}, '
+                f'{self.mean_humidity}, '
+                f'{self.max_humidity}, '
+                f'{self.min_temperature}')
 
 
 # Class to store the result of the averages
@@ -28,22 +40,19 @@ class MonthlyAveragesResult:
 
 
 # class to store the result of the yearly calculation and date
-class YearlyCalculation:
-    def __init__(self, highest_temp, highest_temp_date, lowest_temp, lowest_temp_date, highest_humidity,
-                 highest_humidity_date):
+class YearlyCalculationResult:
+    def __init__(self, highest_temp, lowest_temp, highest_humidity):
         self.highest_temp = highest_temp
-        self.highest_temp_date = highest_temp_date
-
         self.lowest_temp = lowest_temp
-        self.lowest_temp_date = lowest_temp_date
-
         self.highest_humidity = highest_humidity
-        self.highest_humidity_date = highest_humidity_date
 
     def __str__(self):
-        return (f'Highest: {self.highest_temp}C on '
-                f'{self.highest_temp_date["month"]} {self.highest_temp_date["day"]}\n'
-                f'Lowest: {self.lowest_temp}C on '
-                f'{self.lowest_temp_date["month"]} {self.lowest_temp_date["day"]}\n'
-                f'Humidity: {self.highest_humidity}% on '
-                f'{self.highest_humidity_date["month"]} {self.highest_humidity_date["day"]}')
+        return (f'Highest: {self.highest_temp.max_temperature}C on '
+                f'{month_abbr[self.highest_temp.get_month()]} '
+                f'{self.highest_temp.get_day()} \n'                
+                f'Lowest: {self.lowest_temp.min_temperature}C on '
+                f'{month_abbr[self.lowest_temp.get_month()]} '
+                f'{self.lowest_temp.get_day()} \n'
+                f'Humidity: {self.highest_humidity.max_humidity}% on '
+                f'{month_abbr[self.highest_humidity.get_month()]} '
+                f'{self.highest_humidity.get_day()}')

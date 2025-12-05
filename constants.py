@@ -1,4 +1,3 @@
-
 MAX_TEMPERATURE = "Max TemperatureC"
 MIN_TEMPERATURE = "Min TemperatureC"
 MEAN_HUMIDITY = "Mean Humidity"

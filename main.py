@@ -1,21 +1,53 @@
 import parser
+from itertools import chain
 
-from handlers import (print_year_result,
-                      print_month_average_results,
-                      print_combine_graph,
-                      print_separate_graph)
+from helpers import extract_month_and_year
+from weather_file_manager import WeatherFileManager
+from file_data_parser import ParseFileData
+from weather_calculation import WeatherCalculation
+from graph import BarGraph
+from utils import handle_month_file_read_and_parse
+from print_message import PrintMessages
 
 if __name__ == '__main__':
     args = parser.get_parser()
-
     if args.year:
-        print_year_result(args.path, args.year)
+        year_files_data = WeatherFileManager.fetch_year_files_data(args.path, args.year)
+
+        if year_files_data:
+            year_flat_data = chain.from_iterable(year_files_data)
+            parsed_year_data = ParseFileData.parse_to_weather_items(year_flat_data)
+            year_calculation_result = WeatherCalculation.calculate_year_max_min_temperature_and_max_humidity(parsed_year_data)
+
+            if year_calculation_result:
+                print(year_calculation_result)
+        else:
+            PrintMessages.year_data_not_found(args.year)
 
     if args.month:
-        print_month_average_results(args.path, args.month)
+        month, year = extract_month_and_year(args.month)
+        parsed_month_data = handle_month_file_read_and_parse(args.path, month, year)
+        if parsed_month_data:
+            result = WeatherCalculation.calculate_month_temperature_and_humidity_average(parsed_month_data)
+            if result:
+                print(result)
+        else:
+            PrintMessages.year_data_not_found(month)
 
     if args.graph:
-        print_separate_graph(args.path, args.graph)
+        month, year = extract_month_and_year(args.graph)
+        parsed_month_data = handle_month_file_read_and_parse(args.path, month, year)
+        if parsed_month_data:
+            BarGraph.print_graph_header(month, year)
+            BarGraph.separate_horizontal_graph(parsed_month_data)
+        else:
+            PrintMessages.year_data_not_found(month)
 
     if args.combine_graph:
-        print_combine_graph(args.path, args.combine_graph)
+        month, year = extract_month_and_year(args.combine_graph)
+        parsed_month_data = handle_month_file_read_and_parse(args.path, month, year)
+        if parsed_month_data:
+            BarGraph.print_graph_header(month, year)
+            BarGraph.combine_horizontal_graph(parsed_month_data)
+        else:
+            PrintMessages.year_data_not_found(month)
