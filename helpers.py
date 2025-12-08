@@ -7,11 +7,14 @@ from constants import DATE_FORMAT, BLACK_COLOR, BLUE_COLOR, RED_COLOR
 
 def find_file(path, year, month):
     month_abbreviation = month_abbr[month]
+    result = None
 
     for file_name in os.listdir(path):
         if str(year) in file_name and month_abbreviation in file_name:
-            return os.path.join(path, file_name)
-    return None
+            result = os.path.join(path, file_name)
+            break
+
+    return result
 
 
 # Extract month and year
