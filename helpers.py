@@ -1,25 +1,27 @@
 from datetime import datetime
 from calendar import month_abbr, month_name
+import os
 
 from constants import DATE_FORMAT, BLACK_COLOR, BLUE_COLOR, RED_COLOR
 
 
-def get_file_name(year, month):
+def find_file(path, year, month):
     month_abbreviation = month_abbr[month]
-    return f'Murree_weather_{year}_{month_abbreviation}.txt'
 
-def get_month_abbr_and_date():
-    pass
+    for file_name in os.listdir(path):
+        if str(year) in file_name and month_abbreviation in file_name:
+            return os.path.join(path, file_name)
+    return None
 
 
 # Extract month and year
 def extract_month_and_year(date_string):
-    parts = date_string.split('/')
+    parts = date_string.split("/")
     year = int(parts[0])
     month = int(parts[1])
 
     if month < 1 or month > 12:
-        raise ValueError('Invalid month. Month must be between 1 and 12.')
+        raise ValueError("Invalid month. Month must be between 1 and 12.")
 
     return month, year
 
@@ -27,31 +29,24 @@ def extract_month_and_year(date_string):
 def extract_date_parts(date_str):
     dt = datetime.strptime(date_str, DATE_FORMAT)
     return {
-        'day': dt.day,
-        'month': dt.month,  # month number (1-12)
-        'year': dt.year
+        "day": dt.day,
+        "month": dt.month,  # month number (1-12)
+        "year": dt.year
     }
 
 
 # Find Maximum value of any obj value
-def find_max_weather_item(weather_items_list, obj_key):
-    def get_value(weather_item):
-        return weather_item[obj_key]
-
-    maximum_value = max(weather_items_list, key=get_value)
+def find_max_weather_item(weather_items_list, weather_item_key):
+    maximum_value = max(weather_items_list, key=lambda weather_item : weather_item[weather_item_key])
 
     return maximum_value
 
 
 # Find minimum value of any obj key from a month data
 def find_min_weather_item(weather_items_list, weather_item_key):
+    minimum_value = min(weather_items_list, key=lambda weather_item : weather_item[weather_item_key])
 
-    def get_value(weather_item):
-        return weather_item[weather_item_key]
-
-    maximum_value = min(weather_items_list, key=get_value)
-
-    return maximum_value
+    return minimum_value
 
 
 # Find average value

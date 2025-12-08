@@ -11,19 +11,19 @@ class WeatherItem:
         self.date = extract_date_parts(date)
 
     def get_day(self):
-        return self.date['day']
+        return self.date["day"]
 
     def get_month(self):
-        return self.date['month']
+        return self.date["month"]
 
     def __getitem__(self, key):
         return getattr(self, key)
 
     def __str__(self):
-        return (f'{self.max_temperature}, '
-                f'{self.mean_humidity}, '
-                f'{self.max_humidity}, '
-                f'{self.min_temperature}')
+        return (f"{self.max_temperature}, "
+                f"{self.mean_humidity}, "
+                f"{self.max_humidity}, "
+                f"{self.min_temperature}")
 
 
 # Class to store the result of the averages
@@ -34,9 +34,9 @@ class MonthlyAveragesResult:
         self.average_mean_humidity = avg_mean_humidity
 
     def __str__(self):
-        return (f'Highest Average: {self.average_max_temperature}C \n'
-                f'Lowest Average: {self.average_min_temperature}C \n'
-                f'Average Mean Humidity: {self.average_mean_humidity}%')
+        return (f"Highest Average: {self.average_max_temperature}C \n"
+                f"Lowest Average: {self.average_min_temperature}C \n"
+                f"Average Mean Humidity: {self.average_mean_humidity}%")
 
 
 # class to store the result of the yearly calculation and date
@@ -47,12 +47,12 @@ class YearlyCalculationResult:
         self.highest_humidity = highest_humidity
 
     def __str__(self):
-        return (f'Highest: {self.highest_temp.max_temperature}C on '
-                f'{month_abbr[self.highest_temp.get_month()]} '
-                f'{self.highest_temp.get_day()} \n'                
-                f'Lowest: {self.lowest_temp.min_temperature}C on '
-                f'{month_abbr[self.lowest_temp.get_month()]} '
-                f'{self.lowest_temp.get_day()} \n'
-                f'Humidity: {self.highest_humidity.max_humidity}% on '
-                f'{month_abbr[self.highest_humidity.get_month()]} '
-                f'{self.highest_humidity.get_day()}')
+        return (f"Highest: {self.highest_temp.max_temperature}C on "
+                f"{month_abbr[self.highest_temp.get_month()]} "
+                f"{self.highest_temp.get_day()} \n"                
+                f"Lowest: {self.lowest_temp.min_temperature}C on "
+                f"{month_abbr[self.lowest_temp.get_month()]} "
+                f"{self.lowest_temp.get_day()} \n"
+                f"Humidity: {self.highest_humidity.max_humidity}% on "
+                f"{month_abbr[self.highest_humidity.get_month()]} "
+                f"{self.highest_humidity.get_day()}")

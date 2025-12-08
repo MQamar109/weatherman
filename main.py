@@ -1,13 +1,13 @@
 import parser
 from itertools import chain
 
-from helpers import extract_month_and_year
-from weather_file_manager import WeatherFileManager
 from file_data_parser import ParseFileData
-from weather_calculation import WeatherCalculation
 from graph import BarGraph
-from utils import handle_month_file_read_and_parse
+from helpers import extract_month_and_year
 from print_message import PrintMessages
+from utils import handle_month_file_read_and_parse
+from weather_file_manager import WeatherFileManager
+from weather_calculation import WeatherCalculation
 
 if __name__ == '__main__':
     args = parser.get_parser()
@@ -17,7 +17,7 @@ if __name__ == '__main__':
         if year_files_data:
             year_flat_data = chain.from_iterable(year_files_data)
             parsed_year_data = ParseFileData.parse_to_weather_items(year_flat_data)
-            year_calculation_result = WeatherCalculation.calculate_year_max_min_temperature_and_max_humidity(parsed_year_data)
+            year_calculation_result = WeatherCalculation.calculate_yearly_temperature_and_humidity_statistics(parsed_year_data)
 
             if year_calculation_result:
                 print(year_calculation_result)
