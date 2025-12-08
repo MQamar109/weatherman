@@ -4,7 +4,7 @@ import parser
 from file_data_parser import ParseFileData
 from helpers import extract_month_and_year
 from print_message import PrintMessages
-from utils import handle_month_file_read_and_parse, handle_month_graph_generation
+from utils import handle_month_graph_generation
 from weather_calculation import WeatherCalculation
 from weather_file_manager import WeatherFileManager
 
@@ -26,7 +26,9 @@ if __name__ == '__main__':
 
     if args.month:
         month, year = extract_month_and_year(args.month)
-        parsed_month_data = handle_month_file_read_and_parse(args.path, month, year)
+        month_file_data = WeatherFileManager.fetch_monthly_weather_file_data(args.path, month, year)
+        parsed_month_data = ParseFileData.parse_to_weather_items(month_file_data) if month_file_data else []
+
         if parsed_month_data:
             result = WeatherCalculation.calculate_month_temperature_and_humidity_average(parsed_month_data)
             if result:
