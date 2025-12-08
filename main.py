@@ -1,18 +1,18 @@
-import parser
 from itertools import chain
+import parser
 
 from file_data_parser import ParseFileData
-from graph import BarGraph
 from helpers import extract_month_and_year
 from print_message import PrintMessages
-from utils import handle_month_file_read_and_parse
-from weather_file_manager import WeatherFileManager
+from utils import handle_month_file_read_and_parse, handle_month_graph_generation
 from weather_calculation import WeatherCalculation
+from weather_file_manager import WeatherFileManager
+
 
 if __name__ == '__main__':
     args = parser.get_parser()
     if args.year:
-        year_files_data = WeatherFileManager.fetch_year_files_data(args.path, args.year)
+        year_files_data = WeatherFileManager.fetch_year_weather_files_data(args.path, args.year)
 
         if year_files_data:
             year_flat_data = chain.from_iterable(year_files_data)
@@ -32,22 +32,11 @@ if __name__ == '__main__':
             if result:
                 print(result)
         else:
-            PrintMessages.year_data_not_found(month)
+            PrintMessages.month_data_not_found(month, year)
 
     if args.graph:
-        month, year = extract_month_and_year(args.graph)
-        parsed_month_data = handle_month_file_read_and_parse(args.path, month, year)
-        if parsed_month_data:
-            BarGraph.print_graph_header(month, year)
-            BarGraph.separate_horizontal_graph(parsed_month_data)
-        else:
-            PrintMessages.year_data_not_found(month)
-
+        handle_month_graph_generation(args.path, args.graph)
+       
     if args.combine_graph:
-        month, year = extract_month_and_year(args.combine_graph)
-        parsed_month_data = handle_month_file_read_and_parse(args.path, month, year)
-        if parsed_month_data:
-            BarGraph.print_graph_header(month, year)
-            BarGraph.combine_horizontal_graph(parsed_month_data)
-        else:
-            PrintMessages.year_data_not_found(month)
+        handle_month_graph_generation(args.path, args.combine_graph, combine_graph=True)
+      

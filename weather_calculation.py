@@ -4,6 +4,13 @@ from helpers import (find_max_weather_item,
                      find_average_weather_item)
 
 class WeatherCalculation:
+    """
+    A class for calculating weather statistics and averages.
+    
+    This class provides methods to calculate average temperature and
+    humidity values for a month, as well as the highest and lowest
+    temperature and humidity values for an entire year.
+    """
     @staticmethod
     def calculate_month_temperature_and_humidity_average(month_data):
         avg_highest_temperature = find_average_weather_item(month_data,

@@ -2,6 +2,12 @@ import csv
 import os
 
 class FileHandling:
+    """
+    A class for handling file operations.
+    
+    This class provides methods to check if a file exists and read
+    CSV data from a file.
+    """
     @classmethod
     def is_file_exist(cls, file_path):
         return os.path.exists(file_path)
@@ -17,4 +23,3 @@ class FileHandling:
                 for row in file_data:
                     csv_file_data.append(row)
         return csv_file_data
-

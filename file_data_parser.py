@@ -9,6 +9,13 @@ from constants import (
 from weather_containers import WeatherItem
 
 class ParseFileData:
+    """
+    A class for parsing raw weather file data into structured WeatherItem objects.
+    
+    This class provides methods to validate and convert weather data from CSV files
+    (represented as dictionaries) into WeatherItem instances, handling missing or
+    invalid values appropriately.
+    """
     @classmethod
     def validate_weather_value(cls, value):
         return int(value) if value not in ('', ' ', None,) else 0
