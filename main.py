@@ -12,12 +12,16 @@ from weather_file_manager import WeatherFileManager
 if __name__ == '__main__':
     args = parser.get_parser()
     if args.year:
-        yearly_files_readings = WeatherFileManager.fetch_yearly_weather_files_data(args.path, args.year)
+        yearly_files_readings = WeatherFileManager.fetch_yearly_weather_files_data(
+            args.path, args.year
+            )
 
         if yearly_files_readings:
             year_flat_data = chain.from_iterable(yearly_files_readings)
             parsed_year_data = ParseFileData.parse_to_weather_items(year_flat_data)
-            year_calculation_result = WeatherCalculation.calculate_yearly_temperature_and_humidity_statistics(parsed_year_data)
+            year_calculation_result = WeatherCalculation.calculate_yearly_temperature_and_humidity_statistics(
+                parsed_year_data
+                )
 
             if year_calculation_result:
                 print(year_calculation_result)
