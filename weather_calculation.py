@@ -21,7 +21,6 @@ class WeatherCalculation:
 
         results = {field: find_average_weather_item(monthly_weather_data, weather_key) for field, weather_key in avg_keys.items()}
 
-
         return MonthlyAveragesResult(**results)
 
     @staticmethod
