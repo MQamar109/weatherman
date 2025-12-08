@@ -17,13 +17,13 @@ class ParseFileData:
     invalid values appropriately.
     """
     @classmethod
-    def validate_weather_value(cls, value):
-        return int(value) if value not in ('', ' ', None,) else 0
+    def validate_weather_value(cls, weather_value):
+        return int(weather_value) if weather_value not in ('', ' ', None,) else 0
 
     @classmethod
-    def parse_to_weather_items(cls, file_data):
+    def parse_to_weather_items(cls, weather_file_data):
         weather_items = []
-        for row in file_data:
+        for row in weather_file_data:
             weather_item = WeatherItem(
                 date=row.get(PKT_DATE) or row.get(PKST_DATE),
                 max_temp=cls.validate_weather_value(row.get(MAX_TEMPERATURE)),

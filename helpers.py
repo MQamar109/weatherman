@@ -5,7 +5,7 @@ import os
 from constants import DATE_FORMAT, BLACK_COLOR, BLUE_COLOR, RED_COLOR
 
 
-def find_file(path, year, month):
+def get_weather_file_path(path, year, month):
     """
     Finds a weather file matching the specified year and month.
     
@@ -21,14 +21,12 @@ def find_file(path, year, month):
         str | None: The full path to the matching file if found, None otherwise.
     """
     month_abbreviation = month_abbr[month]
-    result = None
 
-    for file_name in os.listdir(path):
-        if str(year) in file_name and month_abbreviation in file_name:
-            result = os.path.join(path, file_name)
-            break
-
-    return result
+    return next(
+    (os.path.join(path, f) for f in os.listdir(path)
+     if str(year) in f and month_abbr[month] in f),
+    None)
+         
 
 
 def extract_month_and_year(date_string):

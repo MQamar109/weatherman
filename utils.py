@@ -21,7 +21,7 @@ def handle_month_file_read_and_parse(path, month, year):
             weather data for each day of the month. Returns an empty list
             if the file is not found or contains no data.
     """
-    month_file_data = WeatherFileManager.fetch_month_weather_file_data(path, month, year)
+    month_file_data = WeatherFileManager.fetch_monthly_weather_file_data(path, month, year)
     return ParseFileData.parse_to_weather_items(month_file_data) if month_file_data else []
 
  
@@ -48,10 +48,7 @@ def handle_month_graph_generation(path, date_string, combine_graph=False):
     month, year = extract_month_and_year(date_string)
     parsed_month_data = handle_month_file_read_and_parse(path, month, year)
     if parsed_month_data:
-        BarGraph.print_graph_header(month, year)
-        if combine_graph:
-            BarGraph.combine_horizontal_graph(parsed_month_data)
-        else:
-            BarGraph.separate_horizontal_graph(parsed_month_data)            
+        BarGraph.display_graph_header(month, year)
+        BarGraph.display_combine_horizontal_graph(parsed_month_data) if combine_graph else BarGraph.display_separated_horizontal_graph(parsed_month_data)            
     else:
-        PrintMessages.month_data_not_found(month, year)
+        PrintMessages.monthly_weather_data_not_found(month, year)

@@ -6,9 +6,9 @@ class PrintMessages:
     for a specific month or year.
     """
     @staticmethod
-    def month_data_not_found(month, year):
+    def monthly_weather_data_not_found(month, year):
         print(f"No data found  of this month: {month}, {year}")
 
     @staticmethod
-    def year_data_not_found(year):
+    def yearly_weather_data_not_found(year):
         print(f"No data found of this year {year}")
