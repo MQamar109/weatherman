@@ -1,6 +1,6 @@
+import os
 from datetime import datetime
 from calendar import month_abbr, month_name
-import os
 
 from constants import DATE_FORMAT, BLACK_COLOR, BLUE_COLOR, RED_COLOR
 
@@ -23,8 +23,8 @@ def get_weather_file_path(path, year, month):
     month_abbreviation = month_abbr[month]
 
     return next(
-        (os.path.join(path, file_name) for file_name in os.listdir(path)
-         if str(year) in file_name and month_abbreviation in file_name),
+        (os.path.join(weather_filepath, weather_file_name) for weather_file_name in os.listdir(weather_filepath)
+         if str(year) in weather_file_name and month_abbreviation in weather_file_name),
         None
     )
          
