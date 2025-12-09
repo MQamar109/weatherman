@@ -12,7 +12,7 @@ class WeatherCalculation:
     temperature and humidity values for an entire year.
     """
     @staticmethod
-    def calculate_month_temperature_and_humidity_average(monthly_weather_data):
+    def calculate_monthly_temperature_and_humidity_average(monthly_weather_data):
         avg_keys = {
             "avg_max_temp": "max_temperature",
             "avg_min_temp": "min_temperature",

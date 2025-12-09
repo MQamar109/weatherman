@@ -28,20 +28,30 @@ if __name__ == '__main__':
         else:
             PrintMessages.yearly_weather_data_not_found(args.year)
 
-    if args.month:
-        month, year = extract_month_and_year(args.month)
-        month_file_data = WeatherFileManager.fetch_monthly_weather_file_data(args.path, month, year)
-        parsed_month_data = ParseFileData.parse_to_weather_items(month_file_data) if month_file_data else []
+    if args.month or args.graph or args.combine_graph:
 
-        if parsed_month_data:
-            result = WeatherCalculation.calculate_month_temperature_and_humidity_average(parsed_month_data)
-            if result:
-                print(result)
-        else:
-            PrintMessages.monthly_weather_data_not_found(month, year)
+        month_statistics = {"month_avg": args.month,
+                            "separate_graph": args.graph,
+                            "combine_graph" : args.combine_graph}
 
-    if args.graph:
-        handle_month_graph_generation(args.path, args.graph)
-       
-    if args.combine_graph:
-        handle_month_graph_generation(args.path, args.combine_graph, combine_graph=True)
+        for month_key, month_agrs in month_statistics.items():
+            if month_agrs:
+                month, year = extract_month_and_year(month_agrs)
+                month_file_data = WeatherFileManager.fetch_monthly_weather_file_data(
+                    args.path, month, year
+                    )
+                parsed_month_data = ParseFileData.parse_to_weather_items(month_file_data) if month_file_data else []
+
+                if parsed_month_data:
+                    if month_key == "month_avg":
+                        monthly_calculation_result = WeatherCalculation.calculate_monthly_temperature_and_humidity_average(
+                        parsed_month_data)
+                        print(monthly_calculation_result)
+
+                    if month_key == "separate_graph":
+                        handle_month_graph_generation(parsed_month_data, month, year)
+
+                    if month_key == "combine_graph":
+                        handle_month_graph_generation(parsed_month_data, month, year, combine_graph=True)
+                else:
+                    PrintMessages.monthly_weather_data_not_found(month, year)

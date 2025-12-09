@@ -19,7 +19,7 @@ class FileHandling:
         if cls.is_weather_file_exist(weather_file_path):
             with open(weather_file_path, 'r', newline='') as file:
                 weather_file_data = csv.DictReader(file)
-                weather_file_data.fieldnames = [name.strip() for name in weather_file_data.fieldnames]
+                weather_file_data.fieldnames = [fieldname.strip() for fieldname in weather_file_data.fieldnames]
                 for row in weather_file_data:
                     csv_weather_file_data.append(row)
                     

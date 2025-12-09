@@ -23,9 +23,10 @@ def get_weather_file_path(path, year, month):
     month_abbreviation = month_abbr[month]
 
     return next(
-    (os.path.join(path, f) for f in os.listdir(path)
-     if str(year) in f and month_abbr[month] in f),
-    None)
+        (os.path.join(path, file_name) for file_name in os.listdir(path)
+         if str(year) in file_name and month_abbreviation in file_name),
+        None
+    )
          
 
 
@@ -131,12 +132,6 @@ def find_average_weather_item(month_data, weather_item_key):
     Returns:
         int: The rounded average value for the specified weather item key.
     """
-    total_value = 0
+    values = [day[weather_item_key] for day in month_data if day[weather_item_key]]
 
-    for day in month_data:
-        if day[weather_item_key]:
-            total_value += day[weather_item_key]
-    count = len(month_data)
-    average_value = total_value / count if count > 0 else 0
-
-    return round(average_value)
+    return round(sum(values) / len(values)) if values else 0

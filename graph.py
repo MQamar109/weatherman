@@ -14,7 +14,7 @@ class BarGraph:
         print(f'{month_name[month]} {year}')
 
     @staticmethod
-    def display_combine_horizontal_graph(monthly_weather_data):
+    def display_combined_horizontal_graph(monthly_weather_data):
         for day in monthly_weather_data:
             print(day.get_day(), BLUE_COLOR,
                   '+' * day.min_temperature + RED_COLOR + '+' * day.min_temperature + 
