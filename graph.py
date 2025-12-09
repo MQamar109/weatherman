@@ -17,16 +17,16 @@ class BarGraph:
     def display_combined_horizontal_graph(monthly_weather_data):
         for day in monthly_weather_data:
             print(day.get_day(), BLUE_COLOR,
-                  '+' * day.min_temperature + RED_COLOR + '+' * day.min_temperature + 
-                  BLACK_COLOR, str(day.min_temperature) + 'C' + ' - ' + str(
-                      day.max_temperature) + 'C')
+                  "+" * day.min_temperature + RED_COLOR + "+" * day.min_temperature + 
+                  BLACK_COLOR, str(day.min_temperature) + "C" + " - " + str(
+                      day.max_temperature) + "C")
 
     @staticmethod
     def display_separated_horizontal_graph(monthly_weather_data):
         for day in monthly_weather_data:
             print(day.get_day(), RED_COLOR,
-                  '+' * day.max_temperature + BLACK_COLOR,
-                  str(day.max_temperature) + 'C')
+                  "+" * day.max_temperature + BLACK_COLOR,
+                  str(day.max_temperature) + "C")
             print(day.get_day(), BLUE_COLOR,
-                  '+' * day.min_temperature + BLACK_COLOR,
-                  str(day.min_temperature) + 'C')
+                  "+" * day.min_temperature + BLACK_COLOR,
+                  str(day.min_temperature) + "C")

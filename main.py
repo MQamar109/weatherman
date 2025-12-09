@@ -9,7 +9,7 @@ from weather_calculation import WeatherCalculation
 from weather_file_manager import WeatherFileManager
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parser.get_parser()
     if args.year:
         yearly_files_readings = WeatherFileManager.fetch_yearly_weather_files_data(
