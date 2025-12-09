@@ -70,11 +70,11 @@ def extract_date_parts(date_str):
         dict: A dictionary with keys "day", "month", and "year" containing
             the respective integer values.
     """
-    dt = datetime.strptime(date_str, DATE_FORMAT)
+    date_time = datetime.strptime(date_str, DATE_FORMAT)
     return {
-        "day": dt.day,
-        "month": dt.month,
-        "year": dt.year
+        "day": date_time.day,
+        "month": date_time.month,
+        "year": date_time.year
     }
 
 
@@ -116,7 +116,7 @@ def find_min_weather_item(weather_items_list, weather_item_key):
     return minimum_value
 
 
-def find_average_weather_item(month_data, weather_item_key):
+def find_average_weather_item(weather_month_data, weather_item_key):
     """
     Calculates the average value for a specified weather item key across month data.
     
@@ -132,6 +132,6 @@ def find_average_weather_item(month_data, weather_item_key):
     Returns:
         int: The rounded average value for the specified weather item key.
     """
-    values = [day[weather_item_key] for day in month_data if day[weather_item_key]]
+    weather_item_values = [weather_day[weather_item_key] for weather_day in weather_month_data if weather_day[weather_item_key]]
 
-    return round(sum(values) / len(values)) if values else 0
+    return round(sum(weather_item_values) / len(weather_item_values)) if weather_item_values else 0

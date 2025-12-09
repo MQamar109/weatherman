@@ -19,16 +19,20 @@ class WeatherCalculation:
             "avg_mean_humidity": "mean_humidity"
         }
 
-        results = {field: find_average_weather_item(monthly_weather_data, weather_key) for field, weather_key in avg_keys.items()}
+        weather_avg_results = {weather_field: find_average_weather_item(monthly_weather_data, weather_key) for weather_field, weather_key in avg_keys.items()}
 
-        return MonthlyAveragesResult(**results)
+        return MonthlyAveragesResult(**weather_avg_results)
 
     @staticmethod
     def calculate_yearly_temperature_and_humidity_statistics(yearly_weather_data):
-        max_temperature = find_max_weather_item(yearly_weather_data, "max_temperature")
-        min_temperature = find_min_weather_item(yearly_weather_data, "min_temperature")
-        max_humidity = find_max_weather_item(yearly_weather_data, "max_humidity")
+        yearly_weather_statistics = {
+            "highest_temp": lambda : find_max_weather_item(yearly_weather_data, "max_temperature"),
+            "lowest_temp": lambda : find_min_weather_item(yearly_weather_data, "min_temperature"),
+            "highest_humidity": lambda : find_max_weather_item(yearly_weather_data, "max_humidity")
+        }
+    
+        calculated_statistics = {
+            weather_key : weather_stat_func()
+            for weather_key, weather_stat_func in yearly_weather_statistics.items()}
 
-        return YearlyCalculationResult(max_temperature,
-                                       min_temperature,
-                                       max_humidity)
+        return YearlyCalculationResult(**calculated_statistics)
