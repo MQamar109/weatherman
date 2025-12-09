@@ -18,7 +18,7 @@ class ParseFileData:
     """
     @classmethod
     def validate_weather_value(cls, weather_value):
-        return int(weather_value) if weather_value not in ('', ' ', None,) else 0
+        return int(weather_value) if weather_value not in ("", " ", None,) else 0
 
     @classmethod
     def parse_to_weather_items(cls, weather_file_data):
