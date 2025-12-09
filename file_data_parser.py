@@ -23,6 +23,7 @@ class ParseFileData:
     @classmethod
     def parse_to_weather_items(cls, weather_file_data):
         weather_items = []
+        
         for row in weather_file_data:
             weather_item = WeatherItem(
                 date=row.get(PKT_DATE) or row.get(PKST_DATE),
