@@ -5,7 +5,7 @@ from calendar import month_abbr, month_name
 from constants import DATE_FORMAT, BLACK_COLOR, BLUE_COLOR, RED_COLOR
 
 
-def get_weather_file_path(path, year, month):
+def get_weather_file_path(weather_filepath, year, month):
     """
     Finds a weather file matching the specified year and month.
     
@@ -47,6 +47,10 @@ def extract_month_and_year(date_string):
         ValueError: If the month is not between 1 and 12.
     """
     parts = date_string.split("/")
+
+    if len(parts) != 2:
+        raise ValueError("Invalid date string. Date string must be in the format YYYY/MM.")
+
     year = int(parts[0])
     month = int(parts[1])
 

@@ -2,6 +2,7 @@ from calendar import month_abbr
 
 from helpers import extract_date_parts
 
+
 class WeatherItem:
     """
     A class for representing weather data items.
@@ -24,7 +25,7 @@ class WeatherItem:
         return self.date["month"]
 
     def __getitem__(self, key):
-        return getattr(self, key)
+        return getattr(self, key, None)
 
     def __str__(self):
         return (f"{self.max_temperature}, "
