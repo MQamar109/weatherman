@@ -13,13 +13,13 @@ class WeatherCalculation:
     """
     @staticmethod
     def calculate_monthly_temperature_and_humidity_average(monthly_weather_data):
-        avg_keys = {
+        monthly_avg_keys = {
             "avg_max_temp": "max_temperature",
             "avg_min_temp": "min_temperature",
             "avg_mean_humidity": "mean_humidity"
         }
 
-        weather_avg_results = {weather_field: find_average_weather_item(monthly_weather_data, weather_key) for weather_field, weather_key in avg_keys.items()}
+        weather_avg_results = {weather_field: find_average_weather_item(monthly_weather_data, weather_key) for weather_field, weather_key in monthly_avg_keys.items()}
 
         return MonthlyAveragesResult(**weather_avg_results)
 
@@ -33,6 +33,7 @@ class WeatherCalculation:
     
         calculated_statistics = {
             weather_key : weather_stat_func()
-            for weather_key, weather_stat_func in yearly_weather_statistics.items()}
+            for weather_key, weather_stat_func in yearly_weather_statistics.items()
+        }
 
         return YearlyCalculationResult(**calculated_statistics)

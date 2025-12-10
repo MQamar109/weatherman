@@ -30,9 +30,11 @@ if __name__ == "__main__":
 
     if args.month or args.graph or args.combine_graph:
 
-        month_arguments = {"month_avg": args.month,
-                            "separate_graph": args.graph,
-                            "combine_graph" : args.combine_graph}
+        month_arguments = {
+            "month_avg": args.month,
+            "separate_graph": args.graph,
+            "combine_graph" : args.combine_graph
+        }
 
         for month_stat_key, month_stat_agr in month_arguments.items():
             if month_stat_agr:
