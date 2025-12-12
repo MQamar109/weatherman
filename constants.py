@@ -1,0 +1,12 @@
+MAX_TEMPERATURE = "Max TemperatureC"
+MIN_TEMPERATURE = "Min TemperatureC"
+MEAN_HUMIDITY = "Mean Humidity"
+MAX_HUMIDITY = "Max Humidity"
+PKT_DATE="PKT"
+PKST_DATE="PKST"
+
+DATE_FORMAT="%Y-%m-%d"
+
+RED_COLOR="\033[31m"
+BLUE_COLOR="\033[34m"
+BLACK_COLOR="\033[0m"
